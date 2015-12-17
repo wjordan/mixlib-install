@@ -86,22 +86,29 @@ module Mixlib
 
       def resolved_version(artifacts)
         @resolved_version ||= begin
+          all_versions = artifacts.collect(&:version)
           if latest_version?
-            all_versions = artifacts.collect(&:version)
-            # params: list of all versions, no version filtering, no pre-releases, use build version
-            Mixlib::Versioning.find_target_version(
-              all_versions,
-              nil,
-              false,
-              true
-            ).to_s
+            find_target_version(all_versions)
           else
-            product_version
+            find_target_version(all_versions, filter: product_version)
           end
         end
+
+        require 'pry'
+        binding.pry
       end
 
       private
+
+      def find_target_version(all_versions, options = {})
+        # params: list of all versions, version filtering config, no pre-releases, use build version
+        Mixlib::Versioning.find_target_version(
+          all_versions,
+          options.fetch(:filter, nil),
+          false,
+          true
+        ).to_s
+      end
 
       def validate_product_names
         unless SUPPORTED_PRODUCT_NAMES.include? product_name

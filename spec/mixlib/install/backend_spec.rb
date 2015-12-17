@@ -216,6 +216,97 @@ context "Mixlib::Install::Backend" do
       end
     end
 
+    context "for unstable", :unstable, :focus do
+      let(:channel) { :unstable }
+      let(:expected_protocol) { "http://" }
+
+      context "when p, pv and m are present" do
+        let(:platform) { "mac_os_x" }
+        let(:platform_version) { "10.10" }
+        let(:architecture) { "x86_64" }
+
+        context "with a full product version" do
+          let(:product_version) { "12.6.0" }
+          let(:expected_info) {
+            {
+              url: "http://artifactory.chef.co/omnibus-unstable-local/com/getchef/chef/12.6.0+",
+              version: "12.6.0"
+            }
+          }
+
+          it_behaves_like "the right artifact info"
+        end
+
+        context "with a major.minor product version" do
+          let(:product_version) { "12.6" }
+          let(:expected_info) {
+            {
+              url: "http://artifactory.chef.co/omnibus-unstable-local/com/getchef/chef/12.6",
+              version: "12.6"
+            }
+          }
+
+          it_behaves_like "the right artifact info"
+        end
+
+        context "with a major product version" do
+          let(:product_version) { "12" }
+          let(:expected_info) {
+            {
+              url: "http://artifactory.chef.co/omnibus-unstable-local/com/getchef/chef/12",
+              version: "12"
+            }
+          }
+
+          it_behaves_like "the right artifact info"
+        end
+
+        context "with :latest version keyword" do
+          let(:product_version) { :latest }
+          let(:expected_info) { {} }
+
+          it_behaves_like "the right artifact info"
+        end
+      end
+
+      context "when p, pv and m are not present" do
+        context "with a full product version" do
+          let(:product_version) { "12.6.0" }
+          let(:expected_version) { /^12.6.0+/ }
+
+          it_behaves_like "the right artifact list info"
+        end
+
+        context "with a full product version" do
+          let(:product_version) { "12.5" }
+          let(:expected_version) { /^12.5.\d+/ }
+
+          it_behaves_like "the right artifact list info"
+        end
+
+        context "with a major.minor product version" do
+          let(:product_version) { "12.6" }
+          let(:expected_version) { /^12.6.\d/ }
+
+          it_behaves_like "the right artifact list info"
+        end
+
+        context "with a major product version" do
+          let(:product_version) { "12" }
+          let(:expected_version) { /^12.\d.\d/ }
+
+          it_behaves_like "the right artifact list info"
+        end
+
+        context "with latest version keyword" do
+          let(:product_version) { "latest" }
+          let(:expected_version) { /\d.\d.\d/ }
+
+          it_behaves_like "the right artifact list info"
+        end
+      end
+    end
+
     context "for current" do
       let(:channel) { :current }
 
