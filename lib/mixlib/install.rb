@@ -120,5 +120,26 @@ module Mixlib
     def self.install_ps1(context = {})
       Mixlib::Install::Generator::PowerShell.install_ps1(context)
     end
+
+    #
+    # Detects platform, platform_version and architecture on the
+    # **current machnie**.
+    # Returns a Hash containing the discovered information.
+    #
+    def self.detect_platform
+      if RUBY_PLATFORM =~ /mswin|mingw|windows/
+        # For windows we use a single set of parameters since all of our builds
+        # are keyed with the same set.
+        {
+          platform: "windows",
+          platform_version: "2008r2",
+          architecture: "x64"
+        }
+      else
+        # TODO: execute platform_detection.sh on the machine and return
+        # the results as a hash.
+      end
+
+    end
   end
 end
