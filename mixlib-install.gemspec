@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "mixlib/install/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "mixlib-install"
+  spec.name          = "wjordan-mixlib-install"
   spec.version       = Mixlib::Install::VERSION
-  spec.authors       = ["Thom May", "Patrick Wright"]
-  spec.email         = ["thom@chef.io", "patrick@chef.io"]
+  spec.authors       = ["Will Jordan", "Thom May", "Patrick Wright"]
+  spec.email         = ["will@code.org", "thom@chef.io", "patrick@chef.io"]
   spec.license       = "Apache-2.0"
 
-  spec.summary       = "A mixin to help with omnitruck installs"
+  spec.summary       = "A mixin to help with omnitruck installs (edge fork)"
   spec.homepage      = "https://chef.io"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
